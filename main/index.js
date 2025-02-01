@@ -3,6 +3,8 @@ const Reproductor = require("../classes/reproductor")
 const ReproductorController = require("../controllers/ReproductorController")
 const reproductor = new Reproductor()
 const reproductorController = new ReproductorController(reproductor)
+require("dotenv").config()
+
 
 const client = new Client({
     intents: 53608447
@@ -30,7 +32,6 @@ client.on(Events.MessageCreate, async(message) => {
 
 })
 
-
-client.login("MTMzMjAwNzA2NDI3MjM3NTgyOQ.GOU2gF.SDw7CP7nqkIE3V-nEJzHhyyPVEkBKo6mj1LbxI")
+client.login(process.env.CLAVE_BOT)
 
 
