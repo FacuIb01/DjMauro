@@ -2,8 +2,8 @@ module.exports = {
     description: "esta funcion detiene el reproductor de musica",
     run: async (message, reproductor) => {
         try{
-            reproductor.stop()
-            message.reply("ALTOOOOOOOOO")
+            reproductor.pause()
+            message.reply("Detuvierto")
         }catch(err){
             message.reply(err.message)
         }

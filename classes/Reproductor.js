@@ -13,6 +13,7 @@ class Reproductor{
         this.reproduciendo = false;
         this.lista = [];
         this.actual = null;
+        
 
         this.audioPlayer.on(AudioPlayerStatus.Idle, () => {
             this.reproducirSiguiente();
@@ -53,7 +54,7 @@ class Reproductor{
     
             return;
         }catch(err){
-            throw new Error(err.message)
+            throw Error(err.message)
         }
     }
 
@@ -115,19 +116,23 @@ class Reproductor{
     }
 
     devolverLista() {
-        for (let i = 0; i < this.lista.length; i++) {
-            console.log(this.lista[i])
-        }
+        return this.lista
     }
 
-    stop(){
-        this.audioPlayer.stop()
+    pause(){
+        this.audioPlayer.pause()
+    }
+
+    unpause(){
+        this.audioPlayer.unpause()
     }
 
     clear(){
-        this.stop()
+        this.audioPlayer.stop()
         this.lista = [];
     }
+
+
 
 }
 

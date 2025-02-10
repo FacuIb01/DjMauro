@@ -4,7 +4,7 @@ const ReproductorController = require("../controllers/ReproductorController")
 const reproductor = new Reproductor()
 const reproductorController = new ReproductorController(reproductor)
 require("dotenv").config()
-
+const comandos = ["clear", "lista", "next", "p", "resume", "saludo", "pause"]
 
 const client = new Client({
     intents: 53608447
@@ -19,7 +19,10 @@ client.on(Events.MessageCreate, async(message) => {
     if(!message.content.startsWith("!")) return;
     
     //obtenemos la accion
-    let accion = message.content.split(" ")[0].slice(1); 
+    let accion = message.content.split(" ")[0].slice(1);
+    if(!comandos.includes(accion)){
+        return message.reply("No conozco ese comando")
+    }
 
     try{
         let comando = require(`../commands/${accion}.js`)
@@ -27,8 +30,6 @@ client.on(Events.MessageCreate, async(message) => {
     }catch(err){
         message.reply(err)
     }
-
-
 
 })
 
