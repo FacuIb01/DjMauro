@@ -10,6 +10,7 @@ class ReproductorController{
     async reproducir(nombreCancion){
         try{
             await this.reproductor.reproducir(nombreCancion)
+
         }catch(err){
             throw Error(err.message)
         }
@@ -40,6 +41,14 @@ class ReproductorController{
 
     devolverLista(){
         return this.reproductor.devolverLista()
+    }
+
+    getActual(){
+        return this.reproductor.obtenerActual()
+    }
+
+    getReproduciendo(){
+        return this.reproductor.getReproduciendo()
     }
 
 }

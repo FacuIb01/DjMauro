@@ -3,6 +3,7 @@ const Reproductor = require("../classes/reproductor")
 const ReproductorController = require("../controllers/ReproductorController")
 const reproductor = new Reproductor()
 const reproductorController = new ReproductorController(reproductor)
+
 require("dotenv").config()
 const comandos = ["clear", "lista", "next", "p", "resume", "saludo", "pause"]
 

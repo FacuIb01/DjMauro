@@ -39,11 +39,10 @@ class Reproductor{
                 this.agregarCancionALista(cancion)
                 return;
             }
-    
-            
+
             let stream = this.obtenerStreamAudio(cancion.url);
     
-            this.setActual(cancion.nombreCancion)
+            this.setActual(cancion)
     
             // Crear recurso de audio correctamente
             let resource = createAudioResource(stream, { inputType: StreamType.Arbitrary });
@@ -73,7 +72,7 @@ class Reproductor{
 
         let stream = this.obtenerStreamAudio(cancion.url);
 
-        this.setActual(cancion.nombreCancion)
+        this.setActual(cancion)
 
         // Crear recurso de audio correctamente
         let resource = createAudioResource(stream, { inputType: StreamType.Arbitrary });
@@ -88,7 +87,7 @@ class Reproductor{
 
             await ytsr(`${nombreCancion}`, { safeSearch: true, limit: 1 }).then(result => {
                 let song = result.items[0];
-                cancion = new Cancion(nombreCancion, song.url, song.duration, song.views, song.thumbnail)
+                cancion = new Cancion(song.name, song.url, song.duration, song.views, song.thumbnail)
             })
             
             return cancion 
@@ -111,8 +110,8 @@ class Reproductor{
 
     }
 
-    setActual(nombreCancion){
-        this.actual = nombreCancion
+    setActual(cancion){
+        this.actual = cancion
     }
 
     devolverLista() {
@@ -130,9 +129,16 @@ class Reproductor{
     clear(){
         this.audioPlayer.stop()
         this.lista = [];
+        this.reproduciendo = false
     }
 
+    getActual(){
+        return this.actual
+    }
 
+    getReproduciendo(){
+        return this.reproduciendo
+    }
 
 }
 

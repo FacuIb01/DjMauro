@@ -1,4 +1,5 @@
 const { joinVoiceChannel} = require('@discordjs/voice');
+const Mensajero = require("../classes/Mensajero")
 
 function conectarBot(canal) {
     return joinVoiceChannel({
@@ -8,30 +9,37 @@ function conectarBot(canal) {
     });
 }
 
+
 module.exports = {
     description: "este comando es el encargado de reproducir la musica creando un reproductor",
-    run: async (message, reproductor) => {
+    run: async (interaction, reproductor) => {
         try {
-            if(!message.member.voice.channel){
-                message.channel.send("Tenes que estar en un chat de voz papito no me bolacees")
+            const mensajero = new Mensajero(interaction)
+
+            if(!interaction.member.voice.channel){
+                interaction.channel.send("Tenes que estar en un chat de voz papito no me bolacees")
                 return;
             }
-
-            let nombreCancion = message.content.split(" ").slice(1).join(" ")
-
-
-            const canal = message.member.voice.channel
-                        
+            
+            let nombreCancion = interaction.content.split(" ").slice(1).join(" ")
+            
+            const canal = interaction.member.voice.channel
+            
             const conexion = conectarBot(canal);
-
+            
             // Agregar el player a la conexión de voz
             conexion.subscribe(reproductor.getAudioPlayer());
-
+            interaction.reply("cargando cancion...")
+            
             // Reproducir el audio
-            await reproductor.reproducir(nombreCancion)
-            message.reply("cargando cancion...")
+            await reproductor.reproducir(nombreCancion, interaction)
+
+            //Mensaje Embebido
+            if(!reproductor.getReproduciendo()){
+                mensajero.mensajeEmbebido(reproductor.getActual(), interaction)
+            }
         } catch (error) {
-            message.reply(error.message);
+            interaction.channel.send(error.message);
         }
 
     }
