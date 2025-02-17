@@ -1,11 +1,13 @@
 const {createAudioPlayer, createAudioResource, StreamType, AudioPlayerStatus   } = require('@discordjs/voice');
 const ytsr = require('@distube/ytsr');
 const ytdl = require("@distube/ytdl-core");
+const { EventEmitter } = require('events');
 const Cancion = require('./cancion');
 
 
-class Reproductor{
+class Reproductor extends EventEmitter{
     constructor(){
+        super()
         if(typeof Reproductor.instance === "object"){
             return Reproductor.instance;
         }
@@ -13,6 +15,7 @@ class Reproductor{
         this.reproduciendo = false;
         this.lista = [];
         this.actual = null;
+        this.subscriptores = []
         
 
         this.audioPlayer.on(AudioPlayerStatus.Idle, () => {
@@ -50,11 +53,25 @@ class Reproductor{
             this.audioPlayer.play(resource)
     
             this.reproduciendo = true;
-    
+            
+            //emitimos el evento para que el mensajero pueda obtener el mensaje correctamente
+            this.emit("nuevaCancion", this.actual)
+
             return;
         }catch(err){
             throw Error(err.message)
         }
+    }
+
+    async crearInfoCancion(nombreCancion){
+        let cancion = null;
+
+        await ytsr(`${nombreCancion}`, { safeSearch: true, limit: 1 }).then(result => {
+            let song = result.items[0];
+            cancion = new Cancion(song.name, song.url, song.duration, song.views, song.thumbnail)
+        })
+        
+        return cancion 
     }
 
     agregarCancionALista(urlCancion){
@@ -79,19 +96,11 @@ class Reproductor{
 
         this.audioPlayer.play(resource)
 
+        this.emit("nuevaCancion", this.actual ,undefined)
+        
         return;
     }
 
-    async crearInfoCancion(nombreCancion){
-            let cancion = null;
-
-            await ytsr(`${nombreCancion}`, { safeSearch: true, limit: 1 }).then(result => {
-                let song = result.items[0];
-                cancion = new Cancion(song.name, song.url, song.duration, song.views, song.thumbnail)
-            })
-            
-            return cancion 
-        }
 
     //esta funcion devuelve el audio del video que queremos ver.
     obtenerStreamAudio (urlCancion) {

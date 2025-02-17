@@ -1,20 +1,22 @@
+const Mensajero = require("../classes/Mensajero")
+const mensajero = new Mensajero()
+
 module.exports = {
-    description: "Esta funcion permite ver el listado de canciones en el reproductor de musica",
-    run: async (message, reproductor) => {
+    description: "Este comando permite ver el listado de canciones en el reproductor de musica",
+    run: async (interaction, reproductor) => {
         const lista = await reproductor.devolverLista()
         if(lista.length === 0){
-            return message.reply("Lista vacia")
+            return mensajero.error("Lista vacia")
         }else{
             try{
-                let listaString = "Canciones en cola de espera: \n"
-
+                let listaString = ""
                 for (let i = 0; i < lista.length; i++) {
                     listaString += `${i+1}-${lista[i].nombre} \n`
                 }
-
-                return message.reply(listaString)
-            }catch(err){
-                message.send(err.message)
+                
+                mensajero.listarCanciones(interaction, listaString)
+            }catch(error){
+                mensajero.error(error.message, interaction)
             }
         }
     }

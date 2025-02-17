@@ -1,11 +1,14 @@
+const Mensajero = require("../classes/Mensajero")
+const mensajero = new Mensajero()
+
 module.exports = {
-    description: "esta funcion detiene el reproductor de musica",
-    run: async (message, reproductor) => {
+    description: "Este comando detiene el reproductor de musica",
+    run: async (interaction, reproductor) => {
         try{
             reproductor.pause()
-            message.reply("Detuvierto")
-        }catch(err){
-            message.reply(err.message)
+            mensajero.detener(interaction)
+        }catch(error){
+            mensajero.error(error.message, interaction)
         }
     }
 }

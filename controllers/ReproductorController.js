@@ -7,10 +7,9 @@ class ReproductorController{
         return this.reproductor.getAudioPlayer()
     }
 
-    async reproducir(nombreCancion){
+    async reproducir(nombreCancion, canalTexto){
         try{
-            await this.reproductor.reproducir(nombreCancion)
-
+            await this.reproductor.reproducir(nombreCancion, canalTexto)
         }catch(err){
             throw Error(err.message)
         }
@@ -50,6 +49,8 @@ class ReproductorController{
     getReproduciendo(){
         return this.reproductor.getReproduciendo()
     }
+
+
 
 }
 
