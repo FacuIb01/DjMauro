@@ -1,14 +1,14 @@
-const Mensajero = require("../classes/Mensajero")
-const mensajero = new Mensajero()
+const MensajeroController = require("../controllers/MensajeroController.js")
+const mensajeroController =  new MensajeroController()
 
 module.exports = {
     description: "Este comando pasa de cancion a la siguiente",
     run: async (interaction, reproductor) => {
         try{
+            mensajeroController.siguienteCancion(interaction)
             reproductor.siguienteCancion()
-            mensajero.siguienteCancion(interaction)
         }catch(error){
-            mensajero.error(error.message, interaction)
+            mensajeroController.error(error.message, interaction)
         }
     }
 }

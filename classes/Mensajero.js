@@ -94,40 +94,17 @@ class Mensajero{
         this.canalTexto.send({ embeds: [mensajeCancion] });
     }
 
-    listar(interaction, lista){
+    listar(interaction, lista, nameTitle, nameField){
         const mensajeLista = new EmbedBuilder()
-        .setTitle(`📜 Lista de reproduccion`)
+        .setTitle(`${nameTitle}`)
         .setColor("DarkBlue")
         .addFields(
-            { name: "📌 Elementos:", value: `\`\`\`yaml\n${lista}\n\`\`\``, inline: false }
+            { name: `${nameField}`, value: `\`\`\`yaml\n${lista}\n\`\`\``, inline: false }
         )
 
         interaction.reply({embeds: [mensajeLista]})
     }
 
-    listarComandos(interaction, lista){
-        const mensajeLista = new EmbedBuilder()
-        .setTitle(`📜 Lista de comandos`)
-        .setColor("DarkBlue")
-        .addFields(
-            { name: "📌 Comandos:", value: `\`\`\`yaml\n${lista}\n\`\`\``, inline: false }
-        )
-        
-        interaction.reply({embeds: [mensajeLista]})
-    
-    }
-
-    listarCanciones(interaction, lista){
-        const mensajeLista = new EmbedBuilder()
-        .setTitle(`📜 Lista de comandos`)
-        .setColor("DarkBlue")
-        .addFields(
-            { name: "📌 Copiar url y usar comando !p para reproducir la cancion deseada:", value: `\`\`\`yaml\n${lista}\n\`\`\``, inline: false }
-        )
-        
-        interaction.reply({embeds: [mensajeLista]})
-    
-    }
     
     async buscarCancionesYListar(nombreCancion){
         const canciones = await this.crearInfoCanciones(nombreCancion)

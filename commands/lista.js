@@ -1,5 +1,5 @@
-const Mensajero = require("../classes/Mensajero")
-const mensajero = new Mensajero()
+const MensajeroController = require("../controllers/MensajeroController.js")
+const mensajeroController =  new MensajeroController()
 
 module.exports = {
     description: "Este comando permite ver el listado de canciones en el reproductor de musica",
@@ -14,9 +14,9 @@ module.exports = {
                     listaString += `${i+1}-${lista[i].nombre} \n`
                 }
                 
-                mensajero.listarCanciones(interaction, listaString)
+                mensajeroController.listarCola(interaction, listaString)
             }catch(error){
-                mensajero.error(error.message, interaction)
+                mensajeroController.error(error.message, interaction)
             }
         }
     }
